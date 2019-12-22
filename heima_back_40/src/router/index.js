@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Login from '@/views/Login.vue'
 import Index from '@/views/Index.vue'
 import Welcome from '@/views/Welcome.vue'
+import PostList from '@/views/PostList.vue'
 Vue.use(VueRouter)
 
 let router = new VueRouter({
@@ -23,6 +24,11 @@ let router = new VueRouter({
           name: 'Welcome',
           path: 'welcome',
           component: Welcome
+        },
+        {
+          name: 'PostList',
+          path: 'postList',
+          component: PostList
         }
       ]
     }
