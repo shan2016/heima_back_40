@@ -51,10 +51,11 @@ export default {
     login () {
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          console.log('验证通过')
+          // console.log('验证通过')
           let res = await userLogin(this.loginForm)
-          console.log(res)
+          // console.log(res)
           if (res.data.message === '登录成功') {
+            localStorage.setItem('heima_40_back_token', res.data.data.token)
             this.$router.push({ path: `/index` })
           } else if (res.data.message === '用户不存在') {
             this.$message.warning(res.data.message)
