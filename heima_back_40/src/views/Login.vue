@@ -2,7 +2,7 @@
   <div class="login">
     <div class="container">
         <img src="../assets/avatar.jpg" alt="" class="avatar">
-      <el-form :model="loginForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
+      <el-form :model="loginForm" :rules="rules" ref="loginForm" class="demo-ruleForm">
         <el-form-item prop="username">
           <el-input
             v-model="loginForm.username"
@@ -20,7 +20,7 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" class="login-btn">登陆</el-button>
+          <el-button type="primary" class="login-btn" @click='login'>登陆</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -28,12 +28,13 @@
 </template>
 
 <script>
+import { userLogin } from '@/api/users.js'
 export default {
   data () {
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: '10086',
+        password: '123456'
       },
       rules: {
         username: [
@@ -44,6 +45,25 @@ export default {
           { min: 6, max: 16, message: '请输入6-16位的密码', trigger: 'blur' }
         ]
       }
+    }
+  },
+  methods: {
+    login () {
+      this.$refs.loginForm.validate(async valid => {
+        if (valid) {
+          console.log('验证通过')
+          let res = await userLogin(this.loginForm)
+          console.log(res)
+          if (res.data.message === '登录成功') {
+            this.$router.push({ path: `/index` })
+          } else if (res.data.message === '用户不存在') {
+            this.$message.warning(res.data.message)
+          }
+        } else {
+          this.$message.error('输入数据不合法')
+          return false
+        }
+      })
     }
   }
 }
